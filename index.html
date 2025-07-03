@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chinese Spelling Practice</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="light-mode">
+    <div class="container">
+        <header>
+            <h1>Chinese Spelling Practice</h1>
+            <button id="theme-toggle" class="theme-btn">🌙</button>
+        </header>
+
+        <div id="main-menu" class="section">
+            <div class="word-management">
+                <h2>Add New Words</h2>
+                <div class="input-group">
+                    <label for="chapter-select">Chapter:</label>
+                    <input type="text" id="chapter-input" placeholder="e.g. Chapter 2">
+                </div>
+                <div class="input-group">
+                    <label for="unit-select">Unit:</label>
+                    <input type="text" id="unit-input" placeholder="e.g. Unit 3">
+                </div>
+                <div class="input-group">
+                    <label for="word-input">Chinese Word:</label>
+                    <input type="text" id="word-input" placeholder="汉字">
+                </div>
+                <div class="input-group">
+                    <label for="pinyin-input">Pinyin:</label>
+                    <input type="text" id="pinyin-input" placeholder="hàn zì">
+                </div>
+                <button id="add-word" class="primary-btn">Add Word</button>
+
+                <div class="bulk-add">
+                    <h3>Bulk Add Words</h3>
+                    <p>Format: Chinese|Pinyin (one per line)</p>
+                    <textarea id="bulk-words" placeholder="汉字|hàn zì&#10;中国|zhōng guó"></textarea>
+                    <div class="input-group">
+                        <label for="bulk-chapter">Chapter:</label>
+                        <input type="text" id="bulk-chapter" placeholder="e.g. Chapter 2">
+                    </div>
+                    <div class="input-group">
+                        <label for="bulk-unit">Unit:</label>
+                        <input type="text" id="bulk-unit" placeholder="e.g. Unit 3">
+                    </div>
+                    <button id="bulk-add-btn" class="primary-btn">Add All Words</button>
+                </div>
+            </div>
+
+            <div class="word-list-section">
+                <h2>Word Lists</h2>
+                <div class="filters">
+                    <select id="chapter-filter">
+                        <option value="all">All Chapters</option>
+                    </select>
+                    <select id="unit-filter">
+                        <option value="all">All Units</option>
+                    </select>
+                </div>
+                <div id="word-list" class="word-list">
+                    <!-- Words will be displayed here -->
+                </div>
+            </div>
+
+            <div class="study-button-container">
+                <button id="start-study" class="study-btn">Study!</button>
+            </div>
+        </div>
+
+        <div id="study-mode" class="section hidden">
+            <div class="study-container">
+                <div class="progress-bar">
+                    <div id="progress-fill"></div>
+                </div>
+                <div class="word-display">
+                    <div id="attempt-history" class="attempt-history"></div>
+                    <h2 id="pinyin-display"></h2>
+                    <div id="word-result" class="hidden"></div>
+                </div>
+                <div class="controls">
+                    <button id="check-word" class="primary-btn">Finished Writing</button>
+                    <div class="marking-buttons hidden" id="marking-buttons">
+                        <button id="mark-correct" class="correct-btn">Correct ✓</button>
+                        <button id="mark-wrong" class="wrong-btn">Wrong ✗</button>
+                    </div>
+                    <button id="next-word" class="primary-btn hidden">Next Word</button>
+                </div>
+                <div class="stats">
+                    <span id="correct-count">0</span> correct | 
+                    <span id="incorrect-count">0</span> incorrect
+                </div>
+                <button id="exit-study" class="secondary-btn">Exit Study Session</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
