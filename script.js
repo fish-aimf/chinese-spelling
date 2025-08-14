@@ -81,16 +81,16 @@ function setupKeyboardShortcuts() {
                 break;
                 
             case 'ArrowRight':
-                // Right arrow: Mark correct
-                if (!markCorrectButton.classList.contains('hidden')) {
-                    markWord(true);
+                // Right arrow: Mark wrong
+                if (!markWrongButton.classList.contains('hidden')) {
+                    markWord(false);
                 }
                 break;
                 
             case 'ArrowLeft':
-                // Left arrow: Mark wrong
-                if (!markWrongButton.classList.contains('hidden')) {
-                    markWord(false);
+                // Left arrow: Mark correct
+                if (!markCorrectButton.classList.contains('hidden')) {
+                    markWord(true);
                 }
                 break;
                 
@@ -309,8 +309,7 @@ function startStudySession() {
   document.getElementById('main-menu').classList.add('hidden');
   document.getElementById('study-mode').classList.remove('hidden');
   
-  // Show keyboard shortcuts info
-  showKeyboardShortcuts();
+
   
   correctCount = 0;
   incorrectCount = 0;
@@ -340,24 +339,7 @@ function startStudySession() {
   showCurrentWord();
 }
 
-function showKeyboardShortcuts() {
-    // Create or update keyboard shortcuts display
-    let shortcutsDiv = document.getElementById('keyboard-shortcuts');
-    if (!shortcutsDiv) {
-        shortcutsDiv = document.createElement('div');
-        shortcutsDiv.id = 'keyboard-shortcuts';
-        shortcutsDiv.innerHTML = `
-            <div class="shortcuts-info">
-                <strong>Keyboard Shortcuts:</strong>
-                <span>↓/Space: Check/Next</span>
-                <span>→: Correct</span>
-                <span>←: Wrong</span>
-                <span>Esc: Exit</span>
-            </div>
-        `;
-        document.getElementById('study-mode').appendChild(shortcutsDiv);
-    }
-}
+
 
 function showCurrentWord() {
   const word = studyQueue[currentWordIndex];
