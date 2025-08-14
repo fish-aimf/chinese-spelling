@@ -12,6 +12,7 @@ function initApp() {
     initDatabase();
     setupEventListeners();
     initTheme();
+    setupKeyboardShortcuts();
 }
 
 function initDatabase() {
@@ -49,6 +50,56 @@ function setupEventListeners() {
     document.getElementById('mark-wrong').addEventListener('click', () => markWord(false));
     document.getElementById('next-word').addEventListener('click', nextWord);
     document.getElementById('exit-study').addEventListener('click', exitStudySession);
+}
+
+function setupKeyboardShortcuts() {
+    document.addEventListener('keydown', (event) => {
+        // Only handle shortcuts in study mode
+        if (document.getElementById('study-mode').classList.contains('hidden')) {
+            return;
+        }
+
+        // Prevent default behavior for arrow keys to avoid scrolling
+        if (['ArrowDown', 'ArrowLeft', 'ArrowRight', 'Space'].includes(event.code)) {
+            event.preventDefault();
+        }
+
+        const checkButton = document.getElementById('check-word');
+        const markCorrectButton = document.getElementById('mark-correct');
+        const markWrongButton = document.getElementById('mark-wrong');
+        const nextButton = document.getElementById('next-word');
+
+        switch(event.code) {
+            case 'ArrowDown':
+            case 'Space':
+                // Down arrow or Space: Check word / Next word
+                if (!checkButton.classList.contains('hidden')) {
+                    checkWord();
+                } else if (!nextButton.classList.contains('hidden')) {
+                    nextWord();
+                }
+                break;
+                
+            case 'ArrowRight':
+                // Right arrow: Mark correct
+                if (!markCorrectButton.classList.contains('hidden')) {
+                    markWord(true);
+                }
+                break;
+                
+            case 'ArrowLeft':
+                // Left arrow: Mark wrong
+                if (!markWrongButton.classList.contains('hidden')) {
+                    markWord(false);
+                }
+                break;
+                
+            case 'Escape':
+                // Escape: Exit study session
+                exitStudySession();
+                break;
+        }
+    });
 }
 
 function initTheme() {
@@ -240,6 +291,7 @@ function updateFilters() {
 function filterWords() {
     displayWords(currentWords);
 }
+
 function startStudySession() {
   const chapterFilter = document.getElementById('chapter-filter').value;
   const unitFilter = document.getElementById('unit-filter').value;
@@ -256,6 +308,9 @@ function startStudySession() {
   
   document.getElementById('main-menu').classList.add('hidden');
   document.getElementById('study-mode').classList.remove('hidden');
+  
+  // Show keyboard shortcuts info
+  showKeyboardShortcuts();
   
   correctCount = 0;
   incorrectCount = 0;
@@ -283,6 +338,25 @@ function startStudySession() {
   shuffleArray(studyQueue);
   currentWordIndex = 0;
   showCurrentWord();
+}
+
+function showKeyboardShortcuts() {
+    // Create or update keyboard shortcuts display
+    let shortcutsDiv = document.getElementById('keyboard-shortcuts');
+    if (!shortcutsDiv) {
+        shortcutsDiv = document.createElement('div');
+        shortcutsDiv.id = 'keyboard-shortcuts';
+        shortcutsDiv.innerHTML = `
+            <div class="shortcuts-info">
+                <strong>Keyboard Shortcuts:</strong>
+                <span>↓/Space: Check/Next</span>
+                <span>→: Correct</span>
+                <span>←: Wrong</span>
+                <span>Esc: Exit</span>
+            </div>
+        `;
+        document.getElementById('study-mode').appendChild(shortcutsDiv);
+    }
 }
 
 function showCurrentWord() {
@@ -338,6 +412,7 @@ function markWord(isCorrect) {
   document.getElementById('marking-buttons').classList.add('hidden');
   document.getElementById('next-word').classList.remove('hidden');
 }
+
 function nextWord() {
   currentWordIndex++;
   
@@ -381,7 +456,7 @@ function shuffleArray(array) {
     }
 }
   
-  function renderAttemptHistory(wordId) {
+function renderAttemptHistory(wordId) {
   const history = wordRepeatTracker[wordId].attemptHistory;
   const historyContainer = document.getElementById('attempt-history');
   historyContainer.innerHTML = '';
